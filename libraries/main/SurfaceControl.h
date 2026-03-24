@@ -38,8 +38,8 @@ public:
   float Kr=1.0;          // right motor gain correction
   float Kl=1.0;          // left motor gain correction
   float avgPower = 50.0; // average forward thrust
-  float uR= std::clamp(uR, 0, 127);// right motor effort
-  float uL= std::clamp(uL, 0, 127);// left motor effort
+  float uR;// right motor effort
+  float uL;// left motor effort
 
   bool navigateState = 1;
   bool atPoint;
