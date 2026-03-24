@@ -29,14 +29,22 @@ void XYStateEstimator::updateState(imu_state_t * imu_state_p, gps_state_t * gps_
     // You can access the current imu heading with imu_state_p->heading
     // Also note that math.h is already included so you have access to trig functions [rad]
 
-    ///////////////////////////////////////////////////////////////////
-    gps_state_p->lon
-    gps_state_p->lat
-    state.y = RADIUS_OF_EARTH_M(lat-origin_lat)
-    state.x=RADIUS_OF_EARTH_M*(lon-origin_lon)*cos(origin_lat)
-    state.yaw=offset+imu_state_p->heading
-    updateState()
-    //////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+  // latitude and longitude changes in radians
+  float delta_lat = (gps_state_p->lat - origin_lat) * (M_PI / 180.0f);
+  float delta_lon = (gps_state_p->lon - origin_lon) * (M_PI / 180.0f);
+
+  // origin latitude in radians for cosine correction
+  float origin_lat_rad = origin_lat * (M_PI / 180.0f);
+
+  // Y points North, X points East
+  state.y = RADIUS_OF_EARTH_M * delta_lat;
+  state.x = RADIUS_OF_EARTH_M * delta_lon * cos(origin_lat_rad);
+
+  // Convert IMU heading (0=North, CW+) to ENU yaw (0=East, CCW+)
+  float heading_rad = imu_state_p->heading * (M_PI / 180.0f);
+  state.yaw = angleDiff((M_PI / 2.0f) - heading_rad);
+//////////////////////////////////////////////////////////////////
 
   }
   else{

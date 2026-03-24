@@ -52,16 +52,22 @@ void SurfaceControl::navigate(xy_state_t * state, gps_state_t * gps_state_p, int
     // You can access the x and y coordinates calculated in XYStateEstimator.cpp using state->x and state->y respectively
     // You can access the yaw calculated in XYStateEstimator.cpp using state->yaw
 
-    ///////////////////////////////////////////////////////////
-    state->yaw
-    state->y
-    state->x
-    yaw_des = atan2(y_des - y, x_des - x)
-    yaw_error=yaw_des-yaw
-    uR=avgPower+u
-    uL=avgPower-u
+ ///////////////////////////////////////////////////////////
+  yaw_des = atan2(y_des - state->y, x_des - state->x);
+  yaw = state->yaw;
+  yaw_error = angleDiff(yaw_des - yaw);
+  
+  u = Kp * yaw_error;
+  uL = avgPower - u;
+  uR = avgPower + u;
+
+  uL = uL * Kl;
+  uR = uR * Kr;
+ //constraint
+  uL = constrain(uL, 0, 127);
+  uR = constrain(uR, 0, 127);
     
-    ///////////////////////////////////////////////////////////
+ ///////////////////////////////////////////////////////////
     
   }
   else {
