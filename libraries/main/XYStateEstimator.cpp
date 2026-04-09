@@ -31,8 +31,8 @@ void XYStateEstimator::updateState(imu_state_t * imu_state_p, gps_state_t * gps_
 
 ///////////////////////////////////////////////////////////////////
   // latitude and longitude changes in radians
-  float delta_lat = (gps_state_p->lat - origin_lat) * (M_PI / 180.0f);
-  float delta_lon = (gps_state_p->lon - origin_lon) * (M_PI / 180.0f);
+  float delta_lat = (gps_state_p->lat - origin_lat) * (PI / 180.0f);
+  float delta_lon = (gps_state_p->lon - origin_lon) * (PI / 180.0f);
 
   // origin latitude in radians for cosine correction
   float origin_lat_rad = origin_lat * (M_PI / 180.0f);
@@ -42,7 +42,7 @@ void XYStateEstimator::updateState(imu_state_t * imu_state_p, gps_state_t * gps_
   state.x = RADIUS_OF_EARTH_M * delta_lon * cos(origin_lat_rad);
 
   // Convert IMU heading (0=North, CW+) to ENU yaw (0=East, CCW+)
-  float heading_rad = imu_state_p->heading * (M_PI / 180.0f);
+  float heading_rad = imu_state_p->heading * (PI / 180.0f);
   state.yaw = angleDiff((M_PI / 2.0f) - heading_rad);
 //////////////////////////////////////////////////////////////////
 
