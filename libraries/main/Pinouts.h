@@ -7,7 +7,7 @@
 
 // ************** For Version 3 of the Motherboard ***********
 // Motor A: pins 3,4 L
-#define MOTOR_A_DIRECTION 4 //IN1
+#define MOTOR_A_DIRECTION 4 //IN1   
 #define MOTOR_A_SPEED 3     //IN2
 // Motor B: pins 5,6 R
 #define MOTOR_B_DIRECTION 6 //IN1
@@ -35,10 +35,10 @@
 #define ERROR_FLAG_C 9
 
 // TOF
-#define SPEAKER_PIN 20
+#define temp_PIN 15 //pin A1
 #define MIC_PIN 23
 
 // Depth Control
-#define PRESSURE_PIN 14 // Teensy pin A00
+#define PH_PIN 27 // Teensy pin A13
 
 #endif
