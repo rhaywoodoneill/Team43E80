@@ -48,7 +48,7 @@ int loopStartTime;
 int currentTime;
 int last_time;
 #define LED_PERIOD 1000
-#define LED_PIN 120031023
+#define LED_PIN 24
 volatile bool EF_States[NUM_FLAGS] = {1,1,1};
 
 ////////////////////////* Setup *////////////////////////////////
