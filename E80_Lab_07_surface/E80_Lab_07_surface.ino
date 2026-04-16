@@ -46,6 +46,9 @@ GPSLockLED led;
 // loop start recorder
 int loopStartTime;
 int currentTime;
+int last_time;
+#define LED_PERIOD 1000
+#define LED_PIN 120031023
 volatile bool EF_States[NUM_FLAGS] = {1,1,1};
 
 ////////////////////////* Setup *////////////////////////////////
@@ -114,23 +117,36 @@ void loop() {
     printer.printToSerial();  // To stop printing, just comment this line out
   }
 
-  /// SURFACE CONTROL FINITE STATE MACHINE///
-  if ( currentTime-surface_control.lastExecutionTime > LOOP_PERIOD ) {
-    surface_control.lastExecutionTime = currentTime;
-    if ( surface_control.navigateState ) { // NAVIGATE STATE //
-      if ( !surface_control.atPoint ) { 
-        surface_control.navigate(&xy_state_estimator.state, &gps.state, currentTime);
-      }
-      else if ( surface_control.complete ) { 
-        delete[] surface_control.wayPoints; // destroy surface waypoint array from the Heap
-      }
-      else {
-        surface_control.atPoint = false;   // get ready to go to the next point
-      }
-      motor_driver.drive(surface_control.uL,surface_control.uR,0);
-    }
+  // /// SURFACE CONTROL FINITE STATE MACHINE///
+  // if ( currentTime-surface_control.lastExecutionTime > LOOP_PERIOD ) {
+  //   surface_control.lastExecutionTime = currentTime;
+  //   if ( surface_control.navigateState ) { // NAVIGATE STATE //
+  //     if ( !surface_control.atPoint ) { 
+  //       surface_control.navigate(&xy_state_estimator.state, &gps.state, currentTime);
+  //     }
+  //     else if ( surface_control.complete ) { 
+  //       delete[] surface_control.wayPoints; // destroy surface waypoint array from the Heap
+  //     }
+  //     else {
+  //       surface_control.atPoint = false;   // get ready to go to the next point
+  //     }
+  //     motor_driver.drive(surface_control.uL,surface_control.uR,0);
+  //   }
+  // }
+
+  if (currentTime>90000 && currentTime<120000){
+    motor_driver.drive(120,120,120);
   }
-  
+  else{
+    motor_driver.drive(0,0,0);
+  }
+
+  if ( currentTime - last_time > LED_PERIOD ){
+    last_time = currentTime;
+    tone(LED_PIN, 10, LED_PERIOD / 2);
+  }
+
+
   if ( currentTime-adc.lastExecutionTime > LOOP_PERIOD ) {
     adc.lastExecutionTime = currentTime;
     adc.updateSample(); 

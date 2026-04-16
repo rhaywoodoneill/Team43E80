@@ -39,6 +39,7 @@
 #define MIC_PIN 23
 
 // Depth Control
-#define PH_PIN 27 // Teensy pin A13
+#define PH_PIN 17 // Teensy pin A3
+#define PHOTO_PIN 16 // tensy pin A2
 
 #endif
